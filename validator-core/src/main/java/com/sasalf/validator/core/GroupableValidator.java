@@ -7,6 +7,7 @@ import java.util.*;
 /**
  * @author Leonardo
  * @creatTime 2023/4/1 15:13
+ * 可分组的校验器
  */
 public class GroupableValidator<T> extends AbstractRuleBasedValidator<T, String> {
 
