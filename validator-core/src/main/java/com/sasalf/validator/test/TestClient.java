@@ -24,9 +24,9 @@ public class TestClient {
             }
         }, Sets.newHashSet("g1")));
         personRules.add(new GroupableFuncRule<>("uniqueId", person -> {
-            // id重复
+            // 模拟数据库获取到的id重复
             if (person.getId().equals("12321")) {
-                CheckingResult.doUnpass("超过10了!! 通过不了!!!!!");
+                CheckingResult.doUnpass("主键重复了: " + person.getId());
             }
         }, Sets.newHashSet("g1")));
 
