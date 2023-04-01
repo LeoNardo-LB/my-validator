@@ -38,13 +38,13 @@ public class GroupableValidator<T> extends AbstractRuleBasedValidator<T, String>
 
     /**
      * 获取规则
-     * @param extraParam 额外参数
+     * @param groupId 额外参数
      * @return 获取规则
      */
     @Override
-    protected Set<? extends Rule<T>> getRules(String extraParam) {
-        Assert.notBlank(extraParam, "获取规则的key不能为空");
-        return groupMap.get(extraParam);
+    protected Set<? extends Rule<T>> getRules(String groupId) {
+        Assert.notBlank(groupId, "获取规则的key不能为空");
+        return groupMap.get(groupId);
     }
 
 }
