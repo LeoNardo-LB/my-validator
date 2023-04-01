@@ -36,7 +36,7 @@ public class TestClient {
         // 构建测试对象
         TestPerson testPerson = new TestPerson();
         testPerson.setId("12321");
-        testPerson.setName("我真他娘是一个大鼻窦的天才");
+        testPerson.setName("你真他娘是一个大大大大大大大的天才");
 
         // 指定2的分组
         validator.validate(testPerson, "2");
