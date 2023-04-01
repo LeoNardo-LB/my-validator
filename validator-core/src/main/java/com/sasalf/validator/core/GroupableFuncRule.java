@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class GroupableFuncRule<T> extends FunctionalRule<T> implements Groupable {
 
     /**
-     * 属于的分组
+     * 属于的分组, 一个规则可以同时属于多个分组
      */
     private final Set<String> groups;
 
