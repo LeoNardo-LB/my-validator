@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' 验证过程中结果
+class CheckingResult {
+    Boolean pass;
+    CheckException exception;
+    String message;
+}
+
+' 验证结果
+class CheckedResult {
+    Boolean success;
+    List<CheckingResult> checkingResults;
+}
+
+interface Rule<T>{
+    CheckingResult check(T target);
+}
+
+
+'校验结果决策器
+interface ResultDecider<T>{
+
+    CheckedResult decision(List<CheckingResult> checkingResults);
+
+}
+
+' 验证器
+interface Validator<T, C> {
+    CheckedResult validate(T target, C extraParam);
+}
+
+' 标准验证器
+abstract class AbstractRuleBasedValidator<T> {
+    ResultDecider<T> resultDecider;
+    CheckedResult validate(T target, C extraParam);
+    #abstract postProcess();
+    #abstract getRules(C extraParam);
+}
+
+
+CheckedResult"1" o-- "n"CheckingResult
+AbstractRuleBasedValidator"1" o-- "1"ResultDecider
+AbstractRuleBasedValidator"1" o-- "n"Rule
+
+AbstractRuleBasedValidator ..|> Validator: 实现
+
+
+@enduml
+
