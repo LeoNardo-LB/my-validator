@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  exp.scaffolding.module.validation.integration.spring.config.ValidationAutoConfiguration
