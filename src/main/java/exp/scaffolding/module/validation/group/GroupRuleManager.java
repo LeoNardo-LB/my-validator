@@ -1,6 +1,5 @@
 package exp.scaffolding.module.validation.group;
 
-import cn.hutool.core.lang.Assert;
 import exp.scaffolding.module.validation.core.Rule;
 import exp.scaffolding.module.validation.core.RuleManager;
 import lombok.extern.slf4j.Slf4j;
@@ -58,13 +57,36 @@ public class GroupRuleManager implements RuleManager<GroupRulePackage<?>, GroupK
      */
     @Override
     public void unregister(GroupKey key) {
-        Assert.notEmpty(key.getRuleIds(), "取消注册的ruleId集合不能为空");
+        Set<Class<?>> classes = key.getClasses();
+        Set<String> groups = key.getGroups();
         Set<String> ruleIds = key.getRuleIds();
-        filterByClassesAndGroups(key.getClasses(), key.getGroups()).forEach(sets -> {
-            for (Set<? extends Rule<?>> set : sets) {
-                set.removeIf(rule -> ruleIds.contains(rule.getRuleId()));
+        if (!CollectionUtils.isEmpty(ruleIds)) {
+            // 移除规则
+            filterByClassesAndGroups(classes, groups).forEach(sets -> {
+                for (Set<? extends Rule<?>> set : sets) {
+                    set.removeIf(rule -> ruleIds.contains(rule.getRuleId()));
+                }
+            });
+        } else if (!CollectionUtils.isEmpty(groups)) {
+            // 移除规则组
+            groupRuleMap.entrySet().stream().filter(entry -> {
+                if (CollectionUtils.isEmpty(classes)) {
+                    return true;
+                }
+                return classes.contains(entry.getKey());
+            }).map(Map.Entry::getValue).forEach(groupMap -> {
+                for (String group : groups) {
+                    groupMap.remove(group);
+                }
+            });
+        } else if (!CollectionUtils.isEmpty(classes)) {
+            // 移除某个类所有已注册的规则
+            for (Class<?> aClass : classes) {
+                groupRuleMap.remove(aClass);
             }
-        });
+        } else {
+            throw new IllegalArgumentException("注销的参数不正确");
+        }
     }
 
     /**
@@ -108,7 +130,7 @@ public class GroupRuleManager implements RuleManager<GroupRulePackage<?>, GroupK
             if (CollectionUtils.isEmpty(classes)) {
                 return true;
             }
-            return classes.contains(entry.getClass());
+            return classes.contains(entry.getKey());
         }).map(Map.Entry::getValue).map(groupMap -> {
             if (CollectionUtils.isEmpty(groups)) {
                 return groupMap.values();

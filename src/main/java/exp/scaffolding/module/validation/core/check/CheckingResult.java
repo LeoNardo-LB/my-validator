@@ -3,6 +3,7 @@ package exp.scaffolding.module.validation.core.check;
 import exp.scaffolding.module.validation.core.Rule;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author Leonardo
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class CheckingResult<T> {
 
     /**

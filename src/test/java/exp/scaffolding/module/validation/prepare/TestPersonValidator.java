@@ -1,5 +1,7 @@
 package exp.scaffolding.module.validation.prepare;
 
+import exp.scaffolding.module.validation.core.ResultDecider;
+import exp.scaffolding.module.validation.core.SimpleDeciderImpl;
 import exp.scaffolding.module.validation.core.check.CheckingResult;
 import exp.scaffolding.module.validation.group.GroupRuleManager;
 import exp.scaffolding.module.validation.group.GroupableRuleBuilder;
@@ -33,6 +35,15 @@ public class TestPersonValidator extends GroupableValidator<TestPerson> {
                                          return true;
                                      })
                                      .build());
+    }
+
+    /**
+     * 获取结果决定器, 由子类实现
+     * @return property value of resultDecider
+     */
+    @Override
+    protected ResultDecider<TestPerson> getResultDecider() {
+        return new SimpleDeciderImpl<>();
     }
 
 }

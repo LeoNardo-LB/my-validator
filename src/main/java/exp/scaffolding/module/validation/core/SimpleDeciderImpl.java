@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @creatTime 2023/4/1 16:43
  * 简单的决定器实现
  */
-public class SimpleDeciderImpl implements ResultDecider<String> {
+public class SimpleDeciderImpl<T> implements ResultDecider<T> {
 
     /**
      * 检查结果决定器
@@ -20,7 +20,7 @@ public class SimpleDeciderImpl implements ResultDecider<String> {
      * @return 最终受检结果
      */
     @Override
-    public CheckedResult<String> decision(List<CheckingResult<String>> checkingResults) {
+    public CheckedResult<T> decision(List<CheckingResult<T>> checkingResults) {
         String errorMessage = checkingResults.stream()
                                       .filter(result -> !result.getPass())
                                       .map(CheckingResult::getFailMessageWithRuleName)
